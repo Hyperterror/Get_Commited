@@ -16,6 +16,7 @@ export default function SprintPage() {
   const { address, isConnected } = useAccount()
   const [activePoolId, setActivePoolId]   = useState<bigint | null>(null)
   const [sprintDeadline, setSprintDl]     = useState<number>(0)
+  const [selectedDuration, setSelectedDuration] = useState<number>(0) // seconds
   const [isFocusMode, setIsFocusMode]     = useState(false)
   const [isSlashed, setIsSlashed]         = useState(false)
   const [showOverlay, setShowOverlay]     = useState(false)
@@ -189,31 +190,41 @@ export default function SprintPage() {
             <div>
               <label style={{ fontSize: '0.8rem', fontWeight: 600, color: 'var(--text-secondary)', display: 'block', marginBottom: 7 }}>Sprint duration</label>
               <div style={{ display: 'flex', gap: 8 }}>
-                {[['25m', 1500], ['1h', 3600], ['2h', 7200]].map(([label, secs]) => {
-                  const target = Math.floor(Date.now() / 1000) + Number(secs)
-                  const active = sprintDeadline === target
+                {([['25m', 1500], ['1h', 3600], ['2h', 7200]] as [string, number][]).map(([label, secs]) => {
+                  const active = selectedDuration === secs
                   return (
                     <button
-                      key={label as string}
-                      onClick={() => setSprintDl(target)}
+                      key={label}
+                      onClick={() => {
+                        setSelectedDuration(secs)
+                        setSprintDl(Math.floor(Date.now() / 1000) + secs)
+                      }}
                       style={{
-                        flex: 1, padding: '8px 0', borderRadius: 8, fontSize: '0.85rem', fontWeight: 500, cursor: 'pointer',
-                        background: 'var(--surface2)', border: `1px solid var(--border)`,
-                        color: 'var(--text-secondary)', transition: 'all 0.15s',
+                        flex: 1, padding: '8px 0', borderRadius: 8,
+                        fontSize: '0.85rem', fontWeight: active ? 700 : 500,
+                        cursor: 'pointer', transition: 'all 0.15s',
+                        background: active ? 'var(--sage)' : 'var(--surface2)',
+                        border: `1px solid ${active ? 'var(--sage-dark)' : 'var(--border)'}`,
+                        color: active ? '#fff' : 'var(--text-secondary)',
                       }}
                     >
-                      {label as string}
+                      {label}
                     </button>
                   )
                 })}
               </div>
+              {selectedDuration === 0 && (
+                <p style={{ fontSize: '0.75rem', color: 'var(--red)', marginTop: 6 }}>
+                  Pick a duration before starting
+                </p>
+              )}
             </div>
           </div>
 
           <button
             id="start-sprint-btn"
             onClick={startSprint}
-            disabled={!activePoolId}
+            disabled={!activePoolId || selectedDuration === 0}
             className="btn-primary"
             style={{ width: '100%', padding: '13px 0', fontSize: '0.95rem', gap: 8 }}
           >
