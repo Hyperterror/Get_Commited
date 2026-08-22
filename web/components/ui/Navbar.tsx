@@ -4,13 +4,15 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useState } from 'react'
 import { ConnectButton } from '@rainbow-me/rainbowkit'
-import { Zap, LayoutDashboard, Layers, ShoppingBag, User, Menu, X } from 'lucide-react'
+import { Zap, LayoutDashboard, Layers, ShoppingBag, User, Menu, X, Trophy } from 'lucide-react'
 
 const NAV_LINKS = [
-  { href: '/pools',     label: 'Pools',     icon: Layers },
-  { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-  { href: '/store',     label: 'Store',     icon: ShoppingBag },
-  { href: '/profile',   label: 'Profile',   icon: User },
+  { href: '/pools',        label: 'Pools',        icon: Layers },
+  { href: '/sprint',       label: 'Sprint',       icon: Zap },
+  { href: '/leaderboard',  label: 'Leaderboard',  icon: Trophy },
+  { href: '/dashboard',    label: 'Dashboard',    icon: LayoutDashboard },
+  { href: '/store',        label: 'Store',         icon: ShoppingBag },
+  { href: '/profile',      label: 'Profile',      icon: User },
 ]
 
 export default function Navbar() {

@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import Providers from './providers'
 import Navbar from '@/components/ui/Navbar'
+import Footer from '@/components/ui/Footer'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
 
@@ -25,6 +26,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <div className="min-h-screen" style={{ background: 'var(--bg)', color: 'var(--text-primary)' }}>
             <Navbar />
             <main>{children}</main>
+            <Footer />
           </div>
         </Providers>
       </body>
