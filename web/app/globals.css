@@ -1,0 +1,274 @@
+@import "tailwindcss";
+
+/* ── Brand Tokens — Bonsai-inspired ─────────────────────
+   Light-mode SaaS palette:
+   • Backgrounds: pure white + off-white surfaces
+   • Accent:      sage green (#5A7A5A) + forest (#3D6B3D)
+   • Neutrals:    slate grays for text
+   • Danger:      warm red (slashing events)
+   • Borders:     very subtle gray
+──────────────────────────────────────────────────────── */
+:root {
+  /* Surfaces */
+  --bg:          #F7F7F5;
+  --surface:     #FFFFFF;
+  --surface2:    #F0F0EC;
+  --surface3:    #E8EAE6;
+
+  /* Accent — sage green */
+  --sage:        #5A7A5A;
+  --sage-dark:   #3D6B3D;
+  --sage-light:  #8FA98F;
+  --sage-faint:  #EFF3EF;
+  --sage-ring:   rgba(90, 122, 90, 0.25);
+
+  /* Semantic */
+  --green:       #2E7D32;
+  --green-bg:    #F1F8F1;
+  --red:         #C0392B;
+  --red-bg:      #FDF3F2;
+  --amber:       #B45309;
+  --amber-bg:    #FFFBEB;
+  --blue:        #1D4ED8;
+  --blue-bg:     #EFF6FF;
+
+  /* Text */
+  --text-primary:   #1A1A1A;
+  --text-secondary: #4B5563;
+  --text-muted:     #9CA3AF;
+  --text-placeholder: #D1D5DB;
+
+  /* Borders & shadows */
+  --border:      #E5E7EB;
+  --border-dark: #D1D5DB;
+  --shadow-sm:   0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md:   0 4px 12px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04);
+  --shadow-lg:   0 10px 30px rgba(0,0,0,0.10), 0 4px 8px rgba(0,0,0,0.05);
+  --shadow-card: 0 1px 3px rgba(0,0,0,0.07), 0 1px 2px rgba(0,0,0,0.04);
+
+  --radius:      12px;
+  --radius-sm:   8px;
+  --radius-lg:   16px;
+}
+
+/* ── Base ────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text-primary);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Scrollbar ───────────────────────────────────────── */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border-dark); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--sage-light); }
+
+/* ── Card ────────────────────────────────────────────── */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
+}
+
+.card-hover {
+  transition: box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+}
+.card-hover:hover {
+  box-shadow: var(--shadow-md);
+  border-color: var(--sage-light);
+  transform: translateY(-2px);
+}
+
+/* ── Sage chip (pill badge) ──────────────────────────── */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+/* ── Status badges ───────────────────────────────────── */
+.badge-active    { background: var(--green-bg); color: var(--green);   border: 1px solid #BBE0BB; }
+.badge-settled   { background: var(--sage-faint); color: var(--sage-dark); border: 1px solid #C8D8C8; }
+.badge-failed    { background: var(--red-bg);   color: var(--red);     border: 1px solid #F3C5C0; }
+.badge-cancelled { background: var(--surface2); color: var(--text-muted); border: 1px solid var(--border); }
+
+/* ── Buttons ─────────────────────────────────────────── */
+.btn-primary {
+  background: var(--sage);
+  color: #fff;
+  border: 1px solid var(--sage-dark);
+  border-radius: var(--radius-sm);
+  padding: 9px 18px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: background 0.15s, box-shadow 0.15s, transform 0.1s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.btn-primary:hover {
+  background: var(--sage-dark);
+  box-shadow: 0 2px 8px var(--sage-ring);
+  transform: translateY(-1px);
+}
+.btn-primary:active  { transform: translateY(0); }
+.btn-primary:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.btn-secondary {
+  background: var(--surface);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-dark);
+  border-radius: var(--radius-sm);
+  padding: 9px 18px;
+  font-weight: 500;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+.btn-secondary:hover {
+  background: var(--surface2);
+  border-color: var(--sage-light);
+  color: var(--text-primary);
+}
+
+.btn-danger {
+  background: var(--red);
+  color: #fff;
+  border: 1px solid #A93226;
+  border-radius: var(--radius-sm);
+  padding: 9px 18px;
+  font-weight: 600;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: background 0.15s, box-shadow 0.15s;
+}
+.btn-danger:hover {
+  background: #A93226;
+  box-shadow: 0 2px 8px rgba(192, 57, 43, 0.3);
+}
+
+/* ── Input ───────────────────────────────────────────── */
+.input {
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--border-dark);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  color: var(--text-primary);
+  font-size: 0.875rem;
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+.input::placeholder { color: var(--text-placeholder); }
+.input:focus {
+  border-color: var(--sage);
+  box-shadow: 0 0 0 3px var(--sage-ring);
+}
+
+/* ── XP Bar ─────────────────────────────────────────── */
+.xp-bar {
+  height: 6px;
+  border-radius: 999px;
+  background: var(--surface3);
+  overflow: hidden;
+}
+.xp-bar-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--sage) 0%, var(--sage-dark) 100%);
+  transition: width 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ── Gradient text ──────────────────────────────────── */
+.gradient-text {
+  background: linear-gradient(135deg, var(--sage) 0%, var(--sage-dark) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-text-fire {
+  background: linear-gradient(135deg, #B45309 0%, #C0392B 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Subtle dot grid background ─────────────────────── */
+.dot-bg {
+  background-image: radial-gradient(circle, #D4D9D0 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+
+/* ── Focus overlay (sprint mode) ─────────────────────── */
+.focus-overlay {
+  background: rgba(247, 247, 245, 0.95);
+  backdrop-filter: blur(6px);
+}
+
+/* ── Animations ─────────────────────────────────────── */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-6px); }
+}
+.float { animation: float 3.5s ease-in-out infinite; }
+
+@keyframes pulse-sage {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(90, 122, 90, 0.5); }
+  50%       { box-shadow: 0 0 0 8px rgba(90, 122, 90, 0); }
+}
+.pulse-sage { animation: pulse-sage 2s ease-in-out infinite; }
+
+@keyframes slash-shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60%  { transform: translateX(-5px); }
+  40%, 80%  { transform: translateX(5px); }
+}
+.slash-shake { animation: slash-shake 0.45s ease; }
+
+@keyframes slash-flash {
+  0%   { background: rgba(192, 57, 43, 0.10); }
+  100% { background: transparent; }
+}
+.slash-flash-overlay { animation: slash-flash 0.9s ease forwards; }
+
+@keyframes countUp {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.counter-animate { animation: countUp 0.25s ease; }
+
+/* ── Divider ─────────────────────────────────────────── */
+.divider {
+  height: 1px;
+  background: var(--border);
+  margin: 0;
+}
+
+/* ── Section label ───────────────────────────────────── */
+.label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
