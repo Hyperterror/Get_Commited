@@ -176,7 +176,7 @@ export default function PoolDetailPage() {
         }}>
           If you finish: <strong>{formatEther(stakeAmount)} MON back</strong>
           {Number(slashedTreasury) > 0 && (
-            <> + <strong>{(Number(formatEther(slashedTreasury)) / Math.max(1, Number(participantCount))).toFixed(4)} MON bonus</strong> (equal share of slashed pot)</>
+            <> + <strong>~{(Number(formatEther(slashedTreasury)) / Math.max(1, Number(participantCount) - 1)).toFixed(4)} MON bonus</strong> <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>(est. per winner)</span></>
           )}
         </div>
       )}

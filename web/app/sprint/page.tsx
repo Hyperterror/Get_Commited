@@ -58,21 +58,21 @@ export default function SprintPage() {
     sprintDeadline || Math.floor(Date.now() / 1000) + 3600
   )
 
+  const handleComplete = useCallback(async () => {
+    await releaseWakeLock()
+    confetti({ particleCount: 160, spread: 80, origin: { y: 0.5 }, colors: ['#5A7A5A', '#3D6B3D', '#B45309'] })
+    toast.success('Sprint complete! Claim your payout from the pool page.')
+    setIsFocusMode(false)
+  }, [releaseWakeLock])
+
   useEffect(() => {
     if (isExpired && isFocusMode && !isSlashed && activePoolId) handleComplete()
-  }, [isExpired])
+  }, [isExpired, isFocusMode, isSlashed, activePoolId, handleComplete])
 
   useEffect(() => {
     demoSlashCallback = () => handleSlash('DEMO: Panic button triggered')
     return () => { demoSlashCallback = null }
   }, [handleSlash])
-
-  async function handleComplete() {
-    await releaseWakeLock()
-    confetti({ particleCount: 160, spread: 80, origin: { y: 0.5 }, colors: ['#5A7A5A', '#3D6B3D', '#B45309'] })
-    toast.success('Sprint complete! Claim your payout from the pool page.')
-    setIsFocusMode(false)
-  }
 
   function startSprint() {
     setIsFocusMode(true)

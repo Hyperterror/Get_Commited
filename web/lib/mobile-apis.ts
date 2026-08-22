@@ -92,7 +92,7 @@ export function useDeviceMotion(onPhonePickup?: () => void, enabled = true) {
 // ─────────────────────────────────────────────────────────
 export function useWakeLock() {
   const [isLocked, setIsLocked] = useState(false);
-  const [isSupported] = useState(() => "wakeLock" in navigator);
+  const [isSupported] = useState(() => typeof navigator !== 'undefined' && 'wakeLock' in navigator);
   const lockRef = useRef<WakeLockSentinel | null>(null);
 
   const acquire = useCallback(async () => {

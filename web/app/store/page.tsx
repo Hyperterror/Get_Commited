@@ -40,16 +40,6 @@ const PERKS = [
     fn: 'mintReputationBadge' as const,
     gas: GAS_LIMITS.MINT_REPUTATION_BADGE,
   },
-  {
-    id: 'feewaiver',
-    name: 'Fee Waiver',
-    desc: '0% protocol fee on your next custom pool. Protocol fee is already 0% on testnet — unlocks cosmetic indicator.',
-    cost: 100,
-    icon: Star,
-    accent: 'var(--green)',
-    fn: 'redeemStreakShield' as const,
-    gas: GAS_LIMITS.REDEEM_STREAK_SHIELD,
-  },
 ]
 
 // ─── Perk Card ─────────────────────────────────────────
@@ -195,7 +185,7 @@ export default function StorePage() {
       </div>
 
       {/* Grid */}
-      <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
         {PERKS.map(p => (
           <PerkCard key={p.id} perk={p} userXP={xpNum} onRedeem={handleRedeem} />
         ))}

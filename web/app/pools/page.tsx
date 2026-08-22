@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useAccount, useReadContract } from 'wagmi'
 import { useWriteContract, useWaitForTransactionReceipt } from 'wagmi'
 import { formatEther, parseEther } from 'viem'
@@ -226,6 +226,13 @@ function PoolCard({ poolId }: { poolId: bigint }) {
     args: [poolId],
   })
 
+  // Live countdown timer
+  const [now, setNow] = useState(() => Math.floor(Date.now() / 1000))
+  useEffect(() => {
+    const interval = setInterval(() => setNow(Math.floor(Date.now() / 1000)), 1000)
+    return () => clearInterval(interval)
+  }, [])
+
   if (!pool) return (
     <div className="card" style={{ padding: 20 }}>
       <div style={{ height: 14, background: 'var(--surface3)', borderRadius: 6, width: '70%', marginBottom: 10 }} />
@@ -234,17 +241,19 @@ function PoolCard({ poolId }: { poolId: bigint }) {
   )
 
   const [, , goal, stakeAmount, deadline, , slashedTreasury, , status, participantCount] = pool
-  const now       = Math.floor(Date.now() / 1000)
-  const remaining = Number(deadline) - now
+  const remaining = Math.max(0, Number(deadline) - now)
   const isActive  = status === 0 && remaining > 0
 
   const formatRemaining = (secs: number) => {
     if (secs <= 0) return 'Ended'
-    const h = Math.floor(secs / 3600)
+    const d = Math.floor(secs / 86400)
+    const h = Math.floor((secs % 86400) / 3600)
     const m = Math.floor((secs % 3600) / 60)
-    if (h > 24) return `${Math.floor(h / 24)}d left`
+    const s = secs % 60
+    if (d > 0)  return `${d}d ${h}h left`
     if (h > 0)  return `${h}h ${m}m left`
-    return `${m}m left`
+    if (m > 0)  return `${m}m ${s}s left`
+    return `${s}s left`
   }
 
   return (
@@ -274,7 +283,11 @@ function PoolCard({ poolId }: { poolId: bigint }) {
       </div>
 
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: '0.78rem', color: 'var(--text-muted)' }}>
+        <div style={{
+          display: 'flex', alignItems: 'center', gap: 5, fontSize: '0.78rem',
+          color: isActive && remaining < 300 ? 'var(--red)' : 'var(--text-muted)',
+          fontWeight: isActive && remaining < 300 ? 600 : 400,
+        }}>
           <Clock style={{ width: 13, height: 13 }} />
           {formatRemaining(remaining)}
         </div>
